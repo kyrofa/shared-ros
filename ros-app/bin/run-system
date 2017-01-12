@@ -1,0 +1,36 @@
+#!/bin/bash
+
+case $SNAP_ARCH in
+amd64)
+	export TRIPLET=x86_64-linux-gnu
+	;;
+*)
+	echo "Unsupported arch: $SNAP_ARCH"
+	exit 1
+	;;
+esac
+
+export ROS_BASE=$SNAP/ros-base
+
+# Add ros-base to the PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:$ROS_BASE/usr/lib/python2.7/dist-packages
+
+# Add ros-base to LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/lib/$TRIPLET
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/usr/lib
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/usr/lib/$TRIPLET
+
+# Source ros-base first, and then we'll extend it.
+export _CATKIN_SETUP_DIR=$ROS_BASE/opt/ros/kinetic
+source $ROS_BASE/opt/ros/kinetic/setup.sh
+
+# Now extend it.
+export _CATKIN_SETUP_DIR=$SNAP/opt/ros/kinetic
+source $SNAP/opt/ros/kinetic/setup.sh --extend
+
+if [ "$1" = "-b" ]; then
+	bash
+else
+	roslaunch listener talk_and_listen.launch
+fi

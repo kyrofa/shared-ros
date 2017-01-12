@@ -1,0 +1,53 @@
+name: ros-app
+version: '0.1'
+grade: stable
+confinement: strict
+summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+plugs:
+  ros-base:
+    content: ros-base-v1
+    interface: content
+    target: /ros-base
+
+apps:
+  launch-project:
+    command: run-system
+    plugs: [network, network-bind, ros-base]
+
+  bash:
+    command: bash
+    plugs: [network, network-bind, ros-base]
+
+parts:
+  # Build the ros-base snap, and tar up its stage dir to use
+  # as the source here.
+  ros-base:
+    plugin: dump
+    source: ros-base.tar.bz2
+    snap: [-*]
+
+  ros-app:
+    plugin: catkin
+    rosdistro: kinetic
+    include-roscore: false
+    underlay: $SNAPCRAFT_STAGE/opt/ros/kinetic
+    catkin-packages:
+      - talker
+      - listener
+    after: [ros-base]
+
+  run-system:
+    plugin: dump
+    stage: [bin/run-system]
+    snap: [bin/run-system]
+
+  mountpoint:
+    plugin: dump
+    stage: [ros-base]
+    snap: [ros-base]

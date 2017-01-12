@@ -1,0 +1,26 @@
+name: ros-base
+version: '0.1'
+grade: stable
+confinement: strict
+summary: Single-line elevator pitch for your amazing snap # 79 char long summary
+description: |
+  This is my-snap's description. You have a paragraph or two to tell the
+  most important story about your snap. Keep it under 100 words though,
+  we live in tweetspace and your description wants to look good in the snap
+  store.
+
+slots:
+  ros-base:
+    content: ros-base-v1
+    interface: content
+    read: [/]
+
+parts:
+  ros-base:
+    plugin: catkin
+    rosdistro: kinetic
+    include-roscore: true
+    source-space: src/
+    catkin-packages: []
+    stage: [-opt/ros/kinetic/.rosinstall]
+    snap: [-opt/ros/kinetic/.rosinstall]
