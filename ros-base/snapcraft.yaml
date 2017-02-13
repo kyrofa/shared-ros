@@ -22,5 +22,7 @@ parts:
     include-roscore: true
     source-space: src/
     catkin-packages: []
-    stage: [-opt/ros/kinetic/.rosinstall]
-    snap: [-opt/ros/kinetic/.rosinstall]
+    stage: &filter-out
+      - -opt/ros/kinetic/.rosinstall
+      - -opt/ros/kinetic/snapcraft-setup.sh
+    snap: *filter-out

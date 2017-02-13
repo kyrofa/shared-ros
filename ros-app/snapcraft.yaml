@@ -36,7 +36,9 @@ parts:
     plugin: catkin
     rosdistro: kinetic
     include-roscore: false
-    underlay: $SNAPCRAFT_STAGE/opt/ros/kinetic
+    underlay:
+      build-path: $SNAPCRAFT_STAGE/opt/ros/kinetic
+      run-path: $SNAP/ros-base/opt/ros/kinetic
     catkin-packages:
       - talker
       - listener

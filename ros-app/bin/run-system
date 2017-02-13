@@ -21,14 +21,6 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/lib/$TRIPLET
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/usr/lib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROS_BASE/usr/lib/$TRIPLET
 
-# Source ros-base first, and then we'll extend it.
-export _CATKIN_SETUP_DIR=$ROS_BASE/opt/ros/kinetic
-source $ROS_BASE/opt/ros/kinetic/setup.sh
-
-# Now extend it.
-export _CATKIN_SETUP_DIR=$SNAP/opt/ros/kinetic
-source $SNAP/opt/ros/kinetic/setup.sh --extend
-
 if [ "$1" = "-b" ]; then
 	bash
 else
